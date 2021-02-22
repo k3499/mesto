@@ -1,0 +1,6 @@
+.element{
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}

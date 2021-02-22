@@ -1,0 +1,6 @@
+.element__info{
+  display: flex;
+  padding: 25px 21px 31px 25px;
+  justify-content: space-between;
+  align-items: baseline;
+}
