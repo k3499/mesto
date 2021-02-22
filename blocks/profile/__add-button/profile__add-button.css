@@ -4,8 +4,14 @@
   background: #000 url(../../../images/add.svg) no-repeat 50%;
   border: 2px solid #fff;
   border-radius: 4px;
+  outline: 0;
 }
-@media (max-width: 800px){
+.profile__add-button:hover{
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media (max-width: 880px){
   .profile__add-button {
     min-width: 64%;
     margin-top: 36px;

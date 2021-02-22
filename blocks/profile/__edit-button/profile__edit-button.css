@@ -4,4 +4,9 @@
   border: 1px solid #fff;
   background: #000 url(../../../images/pen.svg) no-repeat 50%;
   margin-left: 18px;
+  outline: 0;
+}
+.profile__edit-button:hover{
+  cursor: pointer;
+  opacity: 0.6;
 }

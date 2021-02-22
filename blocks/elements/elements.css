@@ -1,5 +1,16 @@
 .elements{
-  margin-top: 50px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap:17px;
+  list-style: none;
+  margin: 50px 0 0 0;
+  padding: 0;
+  justify-items: center;
+}
+@media (max-width: 620px){
+  .elements{
+    grid-gap:20px;
+  }
 }
 @media (max-width: 500px){
   .elements{
