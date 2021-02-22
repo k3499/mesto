@@ -4,4 +4,16 @@
   height: 74px;
   align-items: left;
   border-bottom: 1px solid #545454;
+  padding: 0;
 }
+@media (max-width: 880px){
+.header {
+  padding: 0 27px;
+}
+}
+@media (max-width: 650px){
+  .header {
+    margin-top: 28px;
+    height: 56px;
+  }
+  }

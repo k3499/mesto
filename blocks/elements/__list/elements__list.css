@@ -5,4 +5,10 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  justify-items: center;
+}
+@media (max-width: 620px){
+  .elements__list{
+    grid-gap:20px;
+  }
 }

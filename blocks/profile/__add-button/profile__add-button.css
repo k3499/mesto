@@ -5,3 +5,17 @@
   border: 2px solid #fff;
   border-radius: 4px;
 }
+@media (max-width: 800px){
+  .profile__add-button {
+    min-width: 64%;
+    margin-top: 36px;
+  }
+}
+
+@media (max-width: 450px){
+  .profile__add-button {
+    margin-top: 36px;
+    width: 100%;
+  }
+}
+

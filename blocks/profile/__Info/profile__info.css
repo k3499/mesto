@@ -1,9 +1,11 @@
-.cards{
+.profile__info{
     display: flex;
-    justify-content: flex-start;
     flex-wrap: wrap;
-    max-width: 920px;
-    margin: 0 auto;
-    padding-left: 0;
-    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+}
+@media (max-width: 600px){
+  .profile__info {
+    flex-direction: column;
+  }
 }
