@@ -27,12 +27,12 @@
       </section>
 
       <section class="elements">
-        <ul class="elements__list">
+        <ul class="elements__list"> <!--переделать на блоки-->
           <li class="element">
             <img class="element__image" src="images/z.jpg" alt="">
             <div class="element__info">
                 <p class="element__title">Домбай</p>
-                <button class="element__like"></button>
+                <button class="element__like"></button><!--анимация лайка-->
             </div>
           </li>
           <li class="element">
@@ -77,5 +77,16 @@
       <p class="footer__copy">&copy; 2021 Mesto Russia</p>
     </footer>
   </div>
+  <div class="popup">
+    <div class="popup__container">
+      <h2 class="popup__edit-title">Редактировать профиль</h2>
+      <form class="popup__form">
+        <input class="popup__input" type="text" id="profileName"  name="name" placeholder="Имя" required="" minlength="2" maxlength="40">
+        <input class="popup__input" type="text" id="profileName"  name="name" placeholder="Имя" required="" minlength="2" maxlength="40">
+        <button class="popup__button" type="submit">Сохранить</button>
+      </form>
+      <button class="popup__close"></button><!--анимация закрыть-->
+    </div>
+  </button>
 </body>
 </html>
