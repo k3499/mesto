@@ -1,9 +1,11 @@
 let editButton = document.querySelector('.profile__edit-button'),
     popupProfile = document.querySelector('.popup-profile'),
-    addButton= document.querySelector('.profile__add-button'),
+    addButton = document.querySelector('.profile__add-button'),
     popupCard = document.querySelector('.popup-card'),
-    lightbox = document.querySelector('.lightbox'),
     popupClose = document.querySelector('.popup__close'),
+    lightboxImage = document.querySelector('.popup__image'),
+    lightboxCaption = document.querySelector('.popup__image-caption'),
+    lightbox = document.querySelector('.lightbox'),
     closeCard = document.querySelector('#close-card-button'),
     popupForm = document.querySelector('#profile-form'),
     cardForm = document.querySelector('#cardForm'),
@@ -14,10 +16,7 @@ let editButton = document.querySelector('.profile__edit-button'),
     profileTitle = document.querySelector('.profile__title'),
     profileJob = document.querySelector('.profile__job'),
     templateElement = document.querySelector('.template'),
-    container = document.querySelector('.elements'),
-    cardAddButton = document.querySelector('.profile__add-button'),
-    lightboxImage = document.querySelector('.popup__image'),
-    lightboxCaption = document.querySelector('.popup__image-caption');
+    container = document.querySelector('.elements');
 
 const initialCards = [
   {
