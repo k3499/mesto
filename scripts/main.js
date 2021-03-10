@@ -1,12 +1,14 @@
-let editButton = document.querySelector('.profile__edit-button'),
+const editButton = document.querySelector('.profile__edit-button'),
     popupProfile = document.querySelector('.popup-profile'),
     addButton = document.querySelector('.profile__add-button'),
     popupCard = document.querySelector('.popup-card'),
-    popupClose = document.querySelector('.popup__close'),
+    popupClose = popupProfile.querySelector('.popup__close'),
+    popupCloseCard = popupCard.querySelector('.popup__close'),
     lightboxImage = document.querySelector('.popup__image'),
     lightboxCaption = document.querySelector('.popup__image-caption'),
     lightbox = document.querySelector('.lightbox'),
     closeCard = document.querySelector('#close-card-button'),
+    closelightbox = lightbox.querySelector('#close-lightbox-button'),
     popupForm = document.querySelector('#profile-form'),
     cardForm = document.querySelector('#cardForm'),
     nameInput = popupForm.querySelector('#profileName'),
@@ -44,76 +46,61 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-
-function openPopup(evt){
-  if(evt.target.id === 'edit-profile-button'){
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileJob.textContent;
-    popupProfile.classList.add('popup_opened');
-  }else if(evt.target.id === 'add-card-button'){
-    popupCard.classList.add('popup_opened');
-  }else if(evt.srcElement.className === 'element__image'){
-    const targetLightbox = evt.target;
-    const cardImage = targetLightbox.closest('.element__image').src;
-    const nameImg = evt.target.nextElementSibling.firstElementChild.textContent;
-    lightboxImage.src = cardImage;
-    lightboxCaption.textContent = nameImg;
-    lightbox.classList.add('popup_opened');
-  }
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
 }
-function closePopup(evt){
-  if(evt.target.id === 'close-profile-button'){
-    popupProfile.classList.remove('popup_opened');
-  }else if(evt.target.id === 'close-card-button'){
-    popupCard.classList.remove('popup_opened');
-  }else if(evt.target.id === 'close-lightbox-button'){
-    lightbox.classList.remove('popup_opened');
-  }
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
 }
-//обрабатываем данные из формы профиля
+//Обрабатываем данные из формы профиля
 function formSubmitHandler(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
-  popupProfile.classList.toggle('popup_opened');
+  closePopup(popupProfile)
 }
-//обрабатываем данные из формы карточки
+//Обрабатываем данные из формы карточки
 function cardSubmitHandler(evt) {
   evt.preventDefault();
-  cardNameV = cardName.value;
-  cardLinkV = cardLink.value;
+  const cardNameV = cardName.value;
+  const cardLinkV = cardLink.value;
   const newCardItem = createCardNode({name: cardNameV, link: cardLinkV});
   addCardListeners(newCardItem);
   container.prepend(newCardItem);
-  popupCard.classList.toggle('popup_opened');
+  closePopup(popupCard);
   cardName.value = '';
   cardLink.value = '';
-  console.log(newCardItem);
 }
-function Delete(evt) {
+function deleteCard(evt) {
 	const target = evt.target;
 	const currentCard = target.closest('.element');
-
 	currentCard.remove();
 }
-//вешаем класс при лайке
-function like(evt){
-  const target = evt.target;
-  target.classList.toggle('element__like_active');;
+function likeCard(evt){
+  const targetLike = evt.target;
+  targetLike.classList.toggle('element__like_active');
 }
-//добавляем обработчики
+//берем фото в лайтбокс
+function handleCardClick(imageTarget){
+  const cardImage = imageTarget.querySelector('.element__image').src;
+  const nameImg = imageTarget.querySelector('.element__title');
+  lightboxImage.src = cardImage;
+  lightboxCaption.textContent = nameImg.textContent;
+}
+//Добавляем обработчики
 function addCardListeners(card){
   const elementLike = card.querySelector('.element__like');
-  elementLike.addEventListener('click', like);
+  elementLike.addEventListener('click', likeCard);
 
   const elementDelete = card.querySelector('.element__delete');
-  elementDelete.addEventListener('click', Delete);
+  elementDelete.addEventListener('click', deleteCard);
 
   const element = card.querySelector('.element');
-  element.addEventListener("click", openPopup);
-
-  const closelightbox = document.querySelector('#close-lightbox-button');
-  closelightbox.addEventListener("click", closePopup);
+  const elementImg = card.querySelector('.element__image');
+  elementImg.addEventListener("click", function () {
+    handleCardClick(element);
+    openPopup(lightbox);
+  });
 };
 //клонируем темплейт и добавляем инфу из полей
 function createCardNode(item){
@@ -125,20 +112,34 @@ function createCardNode(item){
   elementImage.alt = item.name;
   return newCard;
 };
-//рендерим первы карточки и вешаем обрабочики
+//рендерим карточки и вешаем обрабочики
 function renderList(){
   const result = initialCards.map(function(item){
-        const newItem = createCardNode(item);
-        addCardListeners(newItem);
-        return newItem;
+  const newItem = createCardNode(item);
+    addCardListeners(newItem);
+    return newItem;
   });
   container.append(...result);
 }
 
 renderList();
-editButton.addEventListener("click", openPopup);
-addButton.addEventListener("click", openPopup);
-popupClose.addEventListener("click", closePopup);
-closeCard.addEventListener("click", closePopup);
+
+editButton.addEventListener("click", function (evt) {
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileJob.textContent;
+  openPopup(popupProfile);
+});
+popupClose.addEventListener("click", function (evt) {
+  closePopup(popupProfile);
+});
+popupCloseCard.addEventListener("click", function (evt) {
+  closePopup(popupCard);
+});
+addButton.addEventListener("click", function (evt) {
+  openPopup(popupCard);
+});
+closelightbox.addEventListener("click", function (evt) {
+  closePopup(lightbox);
+});
 popupForm.addEventListener('submit', formSubmitHandler);
 cardForm.addEventListener('submit', cardSubmitHandler);
