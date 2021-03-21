@@ -46,11 +46,28 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+const handleEscPress = (evt) => {
+  const popupOpened = document.querySelector(".popup_opened");
+  if (evt.key === "Escape") {
+    closePopup(popupOpened);
+  }
+}
+const closePopupOnOverlay = (evt) => {
+  const popupOpened = document.querySelector(".popup_opened");
+  if (evt.target.classList.contains("popup")) {
+    closePopup(popupOpened);
+  }
+}
+
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener("keydown", handleEscPress);
+  document.addEventListener("click", closePopupOnOverlay);
 }
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener("keydown", handleEscPress);
+  document.removeEventListener("click", closePopupOnOverlay);
 }
 //Обрабатываем данные из формы профиля
 function formSubmitHandler(evt) {
