@@ -1,4 +1,4 @@
-const selectorsList = {
+const optionsList = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
@@ -22,42 +22,40 @@ const hasInvalidInput = (inputList) => {
 
 //переключатор состояния кнопки проверяет валидны ли все инпуты
 //запускает функцию проверки валидности передав ей массив инпутов
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, buttonElement, options) => {
 
   if (hasInvalidInput(inputList) || allInputsEmpty(inputList)){
     buttonElement.setAttribute('disabled', true);
-    buttonElement.classList.add(selectorsList.inactiveButtonClass);
+    buttonElement.classList.add(options.inactiveButtonClass);
   } else {
     buttonElement.removeAttribute('disabled');
-    buttonElement.classList.remove(selectorsList.inactiveButtonClass);
+    buttonElement.classList.remove(options.inactiveButtonClass);
   }
 };
 
 //Получает Главный элемент формы и элемент инпута
 //добирается до спана с текстом ошибки
 //вешаем класс появления на спан и делаем его видимым
-const showInputError = (formElement, inputElement) => {
+const showInputError = (formElement, inputElement, options) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  console.log("тут надо навестить класс цвета ошибки и сделать визибилити у спана");
-  inputElement.classList.add(selectorsList.inputErrorClass);
+  inputElement.classList.add(options.inputErrorClass);
   errorElement.textContent = inputElement.validationMessage;
-  errorElement.classList.add(selectorsList.errorClass);
+  errorElement.classList.add(options.errorClass);
 };
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, options) => {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.remove(selectorsList.inputErrorClass);
-  console.log("тут надо убрать класс цвета ошибки и убрать визибилити у спана");
-  errorElement.classList.remove(selectorsList.errorClass);
+  inputElement.classList.remove(options.inputErrorClass);
+  errorElement.classList.remove(options.errorClass);
 };
 
 //Проверка на корректность. Получает Главный элемент формы и элемент инпута
 //проверяет свойство валидности у инпута
 //если валидно, то вызывает функцию скрытия ошибки если нет, то вызывает функцию показа ошибки
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, options) => {
   if (inputElement.validity.valid){
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, options);
   } else {
-    showInputError(formElement, inputElement);
+    showInputError(formElement, inputElement, options);
   }
 };
 
@@ -66,18 +64,17 @@ const checkInputValidity = (formElement, inputElement) => {
 //перебирает массив инпутов и вешает на всех слушателя
 //слушатель следит за событием Инпут и запускает функцию проверки на корректность
 //переключает состояние кнопки в зависимости от валидности инпутов функцией toggleButtonState
-const setInputListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(selectorsList.inputSelector));
-  const buttonElement = formElement.querySelector(selectorsList.submitButtonSelector);
+const setInputListeners = (formElement, options) => {
+  const inputList = Array.from(formElement.querySelectorAll(options.inputSelector));
+  const buttonElement = formElement.querySelector(options.submitButtonSelector);
 
   inputList.forEach(
     inputElement => {
       inputElement.addEventListener('input', () => {
-        checkInputValidity(formElement, inputElement);
-        toggleButtonState(inputList, buttonElement);
-        console.log();
+        checkInputValidity(formElement, inputElement, options);
+        toggleButtonState(inputList, buttonElement, options);
       });
-      toggleButtonState(inputList, buttonElement);
+      toggleButtonState(inputList, buttonElement, options);
     }
   );
 };
@@ -85,16 +82,16 @@ const setInputListeners = (formElement) => {
 //берет все формы и делает массив форм.
 //перебирает формы и вешает слушателя для предотвращения поведения стандартного
 //Вызывает функцию выставления слушателей для каждой формы в момент перебора
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(selectorsList.formSelector));
+const enableValidation = (options) => {
+  const formList = Array.from(document.querySelectorAll(options.formSelector));
   formList.forEach(
     formElement =>{
       formElement.addEventListener('submit', (event) => {
         event.preventDefault();
       });
-      setInputListeners(formElement);
+      setInputListeners(formElement, options);
     }
   );
 };
 
-enableValidation();
+enableValidation(optionsList);

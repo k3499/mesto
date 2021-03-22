@@ -4,6 +4,7 @@ const editButton = document.querySelector('.profile__edit-button'),
     popupCard = document.querySelector('.popup-card'),
     popupClose = popupProfile.querySelector('.popup__close'),
     popupCloseCard = popupCard.querySelector('.popup__close'),
+    popupCardSubmit = popupCard.querySelector('.popup__button'),
     lightboxImage = document.querySelector('.popup__image'),
     lightboxCaption = document.querySelector('.popup__image-caption'),
     lightbox = document.querySelector('.lightbox'),
@@ -70,14 +71,14 @@ function closePopup(popup) {
   document.removeEventListener("click", closePopupOnOverlay);
 }
 //Обрабатываем данные из формы профиля
-function formSubmitHandler(evt) {
+function submitFormHandler(evt) {
   evt.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupProfile)
 }
 //Обрабатываем данные из формы карточки
-function cardSubmitHandler(evt) {
+function submitCardHandler(evt) {
   evt.preventDefault();
   const cardNameV = cardName.value;
   const cardLinkV = cardLink.value;
@@ -85,8 +86,7 @@ function cardSubmitHandler(evt) {
   addCardListeners(newCardItem);
   container.prepend(newCardItem);
   closePopup(popupCard);
-  cardName.value = '';
-  cardLink.value = '';
+  cardForm.reset();
 }
 function deleteCard(evt) {
 	const target = evt.target;
@@ -153,10 +153,12 @@ popupCloseCard.addEventListener("click", function (evt) {
   closePopup(popupCard);
 });
 addButton.addEventListener("click", function (evt) {
+  popupCardSubmit.setAttribute('disabled', true);
+  popupCardSubmit.classList.add('popup__button_disabled');
   openPopup(popupCard);
 });
 closelightbox.addEventListener("click", function (evt) {
   closePopup(lightbox);
 });
-popupForm.addEventListener('submit', formSubmitHandler);
-cardForm.addEventListener('submit', cardSubmitHandler);
+popupForm.addEventListener('submit', submitFormHandler);
+cardForm.addEventListener('submit', submitCardHandler);
