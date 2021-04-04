@@ -1,3 +1,7 @@
+import Card from "./Card.js";
+export const lightbox = document.querySelector('.lightbox');
+export const lightboxImage = document.querySelector('.popup__image');
+export const lightboxCaption = document.querySelector('.popup__image-caption');
 const editButton = document.querySelector('.profile__edit-button'),
     popupProfile = document.querySelector('.popup-profile'),
     addButton = document.querySelector('.profile__add-button'),
@@ -5,9 +9,6 @@ const editButton = document.querySelector('.profile__edit-button'),
     popupClose = popupProfile.querySelector('.popup__close'),
     popupCloseCard = popupCard.querySelector('.popup__close'),
     popupCardSubmit = popupCard.querySelector('.popup__button'),
-    lightboxImage = document.querySelector('.popup__image'),
-    lightboxCaption = document.querySelector('.popup__image-caption'),
-    lightbox = document.querySelector('.lightbox'),
     closeCard = document.querySelector('#close-card-button'),
     closelightbox = lightbox.querySelector('#close-lightbox-button'),
     popupForm = document.querySelector('#profile-form'),
@@ -20,6 +21,7 @@ const editButton = document.querySelector('.profile__edit-button'),
     profileJob = document.querySelector('.profile__job'),
     templateElement = document.querySelector('.template'),
     container = document.querySelector('.elements');
+
 
 const initialCards = [
   {
@@ -47,6 +49,20 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+//функция рендера карт получает обьект которы к ссылкой и названием карты и передает его в класс Card
+function renderCard(item) {
+  const card = new Card(item.name, item.link, ".template");
+  //сразу возвращаем метод генерации карточки у класса кард
+  return card.generateCard();
+}
+//пробегаем по массиву с карточками и вызываем прошлую функцию для создания элемента класса.
+initialCards.forEach((item) => {
+  const newCard = renderCard(item);
+  //сразу добавляем на страницу в .elements
+  container.append(newCard);
+});
+
 const handleEscPress = (evt) => {
   const popupOpened = document.querySelector(".popup_opened");
   if (evt.key === "Escape") {
@@ -60,7 +76,7 @@ const closePopupOnOverlay = (evt) => {
   }
 }
 
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add('popup_opened');
   document.addEventListener("keydown", handleEscPress);
   document.addEventListener("click", closePopupOnOverlay);
