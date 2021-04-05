@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import { optionsList, FormValidator } from "./FormValidator.js";
 export const lightbox = document.querySelector('.lightbox');
 export const lightboxImage = document.querySelector('.popup__image');
 export const lightboxCaption = document.querySelector('.popup__image-caption');
@@ -9,7 +10,6 @@ const editButton = document.querySelector('.profile__edit-button'),
     popupClose = popupProfile.querySelector('.popup__close'),
     popupCloseCard = popupCard.querySelector('.popup__close'),
     popupCardSubmit = popupCard.querySelector('.popup__button'),
-    closeCard = document.querySelector('#close-card-button'),
     closelightbox = lightbox.querySelector('#close-lightbox-button'),
     popupForm = document.querySelector('#profile-form'),
     cardForm = document.querySelector('#cardForm'),
@@ -19,7 +19,6 @@ const editButton = document.querySelector('.profile__edit-button'),
     cardLink = cardForm.querySelector('#cardLink'),
     profileTitle = document.querySelector('.profile__title'),
     profileJob = document.querySelector('.profile__job'),
-    templateElement = document.querySelector('.template'),
     container = document.querySelector('.elements');
 
 
@@ -50,7 +49,7 @@ const initialCards = [
   }
 ];
 
-//функция рендера карт получает обьект которы к ссылкой и названием карты и передает его в класс Card
+//функция рендера карт получает обьект который с ссылкой и названием карты и передает его в класс Card
 function renderCard(item) {
   const card = new Card(item.name, item.link, ".template");
   //сразу возвращаем метод генерации карточки у класса кард
@@ -104,58 +103,6 @@ function submitCardHandler(evt) {
   closePopup(popupCard);
   cardForm.reset();
 }
-function deleteCard(evt) {
-	const target = evt.target;
-	const currentCard = target.closest('.element');
-	currentCard.remove();
-}
-function likeCard(evt){
-  const targetLike = evt.target;
-  targetLike.classList.toggle('element__like_active');
-}
-//берем фото в лайтбокс
-function handleCardClick(imageTarget){
-  const cardImage = imageTarget.querySelector('.element__image').src;
-  const nameImg = imageTarget.querySelector('.element__title');
-  lightboxImage.src = cardImage;
-  lightboxCaption.textContent = nameImg.textContent;
-}
-//Добавляем обработчики
-function addCardListeners(card){
-  const elementLike = card.querySelector('.element__like');
-  elementLike.addEventListener('click', likeCard);
-
-  const elementDelete = card.querySelector('.element__delete');
-  elementDelete.addEventListener('click', deleteCard);
-
-  const element = card.querySelector('.element');
-  const elementImg = card.querySelector('.element__image');
-  elementImg.addEventListener("click", function () {
-    handleCardClick(element);
-    openPopup(lightbox);
-  });
-};
-//клонируем темплейт и добавляем инфу из полей
-function createCardNode(item){
-  const newCard = templateElement.content.cloneNode(true),
-        elementTitle = newCard.querySelector('.element__title'),
-        elementImage = newCard.querySelector('.element__image');
-  elementTitle.textContent = item.name;
-  elementImage.src = item.link;
-  elementImage.alt = item.name;
-  return newCard;
-};
-//рендерим карточки и вешаем обрабочики
-function renderList(){
-  const result = initialCards.map(function(item){
-  const newItem = createCardNode(item);
-    addCardListeners(newItem);
-    return newItem;
-  });
-  container.append(...result);
-}
-
-renderList();
 
 editButton.addEventListener("click", function (evt) {
   nameInput.value = profileTitle.textContent;
@@ -173,8 +120,16 @@ addButton.addEventListener("click", function (evt) {
   popupCardSubmit.classList.add('popup__button_disabled');
   openPopup(popupCard);
 });
-closelightbox.addEventListener("click", function (evt) {
-  closePopup(lightbox);
-});
+
+
+
 popupForm.addEventListener('submit', submitFormHandler);
 cardForm.addEventListener('submit', submitCardHandler);
+
+//создаем экземпляр валидатора попапа профиля
+const profileValidator = new FormValidator(optionsList, popupProfile);
+profileValidator.enableValidation();
+
+//создаем экземпляр валидатора попапа карточки
+const placeValidator = new FormValidator(optionsList, popupCard);
+placeValidator.enableValidation();
