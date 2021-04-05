@@ -120,8 +120,9 @@ addButton.addEventListener("click", function (evt) {
   popupCardSubmit.classList.add('popup__button_disabled');
   openPopup(popupCard);
 });
-
-
+closelightbox.addEventListener("click", function (evt) {
+  closePopup(lightbox);
+});
 
 popupForm.addEventListener('submit', submitFormHandler);
 cardForm.addEventListener('submit', submitCardHandler);
