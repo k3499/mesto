@@ -9,8 +9,7 @@ const editButton = document.querySelector('.profile__edit-button'),
     popupCard = document.querySelector('.popup-card'),
     popupClose = popupProfile.querySelector('.popup__close'),
     popupCloseCard = popupCard.querySelector('.popup__close'),
-    popupCardSubmit = popupCard.querySelector('.popup__button'),
-    closelightbox = lightbox.querySelector('#close-lightbox-button'),
+    closeLightbox = lightbox.querySelector('#close-lightbox-button'),
     popupForm = document.querySelector('#profile-form'),
     cardForm = document.querySelector('#cardForm'),
     nameInput = popupForm.querySelector('#profileName'),
@@ -51,7 +50,7 @@ const initialCards = [
 
 //функция рендера карт получает обьект который с ссылкой и названием карты и передает его в класс Card
 function renderCard(item) {
-  const card = new Card(item.name, item.link, ".template");
+  const card = new Card(item, ".template");
   //сразу возвращаем метод генерации карточки у класса кард
   return card.generateCard();
 
@@ -64,23 +63,16 @@ initialCards.forEach((item) => {
 });
 
 const handleEscPress = (evt) => {
-  const popupOpened = document.querySelector(".popup_opened");
   if (evt.key === "Escape") {
+    const popupOpened = document.querySelector(".popup_opened");
     closePopup(popupOpened);
   }
 }
 const closePopupOnOverlay = (evt) => {
-  const popupOpened = document.querySelector(".popup_opened");
   if (evt.target.classList.contains("popup")) {
+    const popupOpened = document.querySelector(".popup_opened");
     closePopup(popupOpened);
   }
-}
-
-function addCard() {
-  openPopup(popupCard);
-  cardName.value = "";
-  cardLink.value = "";
-  placeValidator.clearForm();
 }
 
 export function openPopup(popup) {
@@ -123,14 +115,14 @@ popupClose.addEventListener("click", function (evt) {
 popupCloseCard.addEventListener("click", function (evt) {
   closePopup(popupCard);
 });
-function addcard() {
+function addCard() {
   cardName.value = "";
   cardLink.value = "";
   placeValidator.clearForm();
   openPopup(popupCard);
 }
-addButton.addEventListener("click", addcard);
-closelightbox.addEventListener("click", function (evt) {
+addButton.addEventListener("click", addCard);
+closeLightbox.addEventListener("click", function (evt) {
   closePopup(lightbox);
 });
 

@@ -1,11 +1,11 @@
 import { lightbox, lightboxImage, lightboxCaption, openPopup } from './index.js';
 
 export default class Card {
-  constructor(title, imgLink, selector){
+  constructor(item, selector){
     //помещаем в элементы обьекта то что передали при создании
     //(название карточки, ссылка на изображение и селектор .template)
-    this._title = title;
-    this._img = imgLink;
+    this._title = item.name;
+    this._img = item.link;
     this._selector = selector;
   }
 
@@ -42,7 +42,7 @@ export default class Card {
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
   _handleDelete() {
-    this._element.closest('.element').remove();
+    this._element.remove();
   }
 
   generateCard() {
