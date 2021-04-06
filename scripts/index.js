@@ -54,6 +54,7 @@ function renderCard(item) {
   const card = new Card(item.name, item.link, ".template");
   //сразу возвращаем метод генерации карточки у класса кард
   return card.generateCard();
+
 }
 //пробегаем по массиву с карточками и вызываем прошлую функцию для создания элемента класса.
 initialCards.forEach((item) => {
@@ -73,6 +74,13 @@ const closePopupOnOverlay = (evt) => {
   if (evt.target.classList.contains("popup")) {
     closePopup(popupOpened);
   }
+}
+
+function addCard() {
+  openPopup(popupCard);
+  cardName.value = "";
+  cardLink.value = "";
+  placeValidator.clearForm();
 }
 
 export function openPopup(popup) {
@@ -95,13 +103,13 @@ function submitFormHandler(evt) {
 //Обрабатываем данные из формы карточки
 function submitCardHandler(evt) {
   evt.preventDefault();
-  const cardNameV = cardName.value;
-  const cardLinkV = cardLink.value;
-  const newCardItem = createCardNode({name: cardNameV, link: cardLinkV});
-  addCardListeners(newCardItem);
-  container.prepend(newCardItem);
+  const card = {
+    name: cardName.value,
+    link: cardLink.value
+  };
+  const newCard = renderCard(card);
+  container.prepend(newCard);
   closePopup(popupCard);
-  cardForm.reset();
 }
 
 editButton.addEventListener("click", function (evt) {
@@ -115,11 +123,13 @@ popupClose.addEventListener("click", function (evt) {
 popupCloseCard.addEventListener("click", function (evt) {
   closePopup(popupCard);
 });
-addButton.addEventListener("click", function (evt) {
-  popupCardSubmit.setAttribute('disabled', true);
-  popupCardSubmit.classList.add('popup__button_disabled');
+function addcard() {
+  cardName.value = "";
+  cardLink.value = "";
+  placeValidator.clearForm();
   openPopup(popupCard);
-});
+}
+addButton.addEventListener("click", addcard);
 closelightbox.addEventListener("click", function (evt) {
   closePopup(lightbox);
 });
