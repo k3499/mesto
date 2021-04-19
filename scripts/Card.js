@@ -1,23 +1,29 @@
-import { lightbox, lightboxImage, lightboxCaption, openPopup } from './index.js';
-
-export default class Card {
-  constructor(item, selector){
+export class Card {
+  constructor( item, selector, handleCardClick ){
     //помещаем в элементы обьекта то что передали при создании
     //(название карточки, ссылка на изображение и селектор .template)
-    this._title = item.name;
-    this._img = item.link;
+    this.title = item.name;
+    this.img = item.link;
     this._selector = selector;
+    this._handleCardClick = handleCardClick;
   }
 
+  _deleteClickHandler(){//обработчик нажатия кнопки удаления
+    this._element.remove();
+    this._element = null;
+  }
+  _likeClickHandler(){//обработчик нажатия кнопки лайк
+    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+  }
 
   _getTemplate(){
       //берем код из теймплейта
-    const cardElement = document.querySelector(this._selector).content.querySelector('.element').cloneNode(true);
+    const cardElement = document.querySelector(this._selector).content.querySelector(".element").cloneNode(true);
     return cardElement;
   }
 
   _setEventListeners() {
-    //находим из созданного элемента кнопку лайк и вешаем на нее листнер с функцией лайк
+    //находим из созданного элемента кнопку лайк и вешаем на нее листнеры
     this._element.querySelector('.element__like').addEventListener('click', () => {
       this._handleLike();
     });
@@ -27,18 +33,18 @@ export default class Card {
     });
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._handleOpenImg();
+      this._handleCardClick();
     });
   }
 
   _handleOpenImg() {
     openPopup(lightbox);
-    lightboxImage.src = this._img;
-    lightboxImage.alt = this._title;
-    lightboxCaption.textContent = this._title;
+    lightboxImage.src = this.img;
+    lightboxImage.alt = this.title;
+    lightboxCaption.textContent = this.title;
   }
   _handleLike() {
-    //находим из созданного элемента кнопку лайк и пересключаем состояние активности
+    //находим из созданного элемента кнопку лайк и переключаем состояние
     this._element.querySelector('.element__like').classList.toggle('element__like_active');
   }
   _handleDelete() {
@@ -54,9 +60,9 @@ export default class Card {
     const title = this._element.querySelector('.element__title');
 
     //в ссылку и подпись помещаем то изображение и в подпись - текст
-    image.src = this._img;
-    image.alt = this._title;
-    title.textContent = this._title;
+    image.src = this.img;
+    image.alt = this.title;
+    title.textContent = this.title;
 
     return this._element;
   }
