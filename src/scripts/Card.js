@@ -37,12 +37,6 @@ export class Card {
     });
   }
 
-  _handleOpenImg() {
-    openPopup(lightbox);
-    lightboxImage.src = this.img;
-    lightboxImage.alt = this.title;
-    lightboxCaption.textContent = this.title;
-  }
   _handleLike() {
     //находим из созданного элемента кнопку лайк и переключаем состояние
     this._element.querySelector('.element__like').classList.toggle('element__like_active');

@@ -5,14 +5,13 @@ export class PopupWithForm extends Popup{
     super(popupSelector); //Подгружаем параметры родительского попапа
     this._formSubmitHandler = formSubmitHandler;
     this._form = this._popup.querySelector('.popup__form');
+    this._inputsList = Array.from(this._popup.querySelectorAll('input'));
   }
     _getInputValues(){
       //Получаем данные инпутов
-      const inputsList = Array.from(this._popup.querySelectorAll('input'));//все поля в массив
-
       const inputsData = {
-        uInput: inputsList[0].value,
-        dInput: inputsList[1].value
+        uInput: this._inputsList[0].value,
+        dInput: this._inputsList[1].value
       };
       return inputsData;
       //проходим по каждому элементу массива и помещаем значение инпута в обьект

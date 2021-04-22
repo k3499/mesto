@@ -1,12 +1,3 @@
-export const optionsList = {
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
-
-
 export class FormValidator {
   constructor(options, formElement) {
     this._formSelector = options.formSelector;
@@ -46,15 +37,16 @@ export class FormValidator {
       this._showInputError(inputElement, errorMessage);
     }
   };
-
-  _toggleButtonState = () => {
+  _validcheck = () => {
     const NotValidInput = this._inputList.some(
       (inputElement) => !inputElement.validity.valid
     );
     const allInputsEmpty = !this._inputList.some(inputElement =>
       inputElement.value.length > 0);
-
-    if (NotValidInput || allInputsEmpty){
+      return (NotValidInput || allInputsEmpty);
+  };
+  _toggleButtonState = () => {
+    if (this._validcheck()){
       this._buttonElement.setAttribute('disabled', true);
       this._buttonElement.classList.add(this._inactiveButtonClass);
     } else {
@@ -64,7 +56,6 @@ export class FormValidator {
   };
 
    _setInputListeners = () => {
-
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
