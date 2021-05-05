@@ -30,6 +30,7 @@
       <p class="footer__copy">&copy; 2021 Mesto Russia</p>
     </footer>
   </div>
+    <!--редактирование профиля попап-->
     <div class="popup popup-profile">
       <div class="popup__container">
         <h2 class="popup__edit-title">Редактировать профиль</h2>
@@ -43,6 +44,7 @@
         <button class="popup__close" id="close-profile-button" type="button"></button>
       </div>
     </div>
+      <!--добавление карточки попап-->
       <div class="popup popup-card">
         <div class="popup__container">
           <h2 class="popup__edit-title">Новое место</h2>
@@ -56,6 +58,7 @@
           <button class="popup__close" id="close-card-button" type="button"></button>
         </div>
       </div>
+      <!--лайтбокс попап-->
       <div class="popup lightbox">
           <figure class="popup__image-figure">
             <img class="popup__image" src="/" alt="/">
@@ -63,13 +66,39 @@
             <button class="popup__close" id="close-lightbox-button" type="button"></button>
           </figure>
       </div>
+      <!--Подтверждение попап-->
+      <div class="popup confirm-popup">
+        <div class="popup__container">
+          <h2 class="popup__edit-title">Вы уверены?</h2>
+          <form class="popup__form" id="confirm-form" name="confirm-form"  method="GET" action="#" novalidate>
+            <button class="popup__button" type="submit">Да</button>
+          </form>
+          <button class="popup__close" id="close-confirm-button" type="button"></button>
+        </div>
+      </div>
+      <!--редактирование аватара попап-->
+      <div class="popup upd-ava-popup">
+        <div class="popup__container">
+          <h2 class="popup__edit-title">Обновить аватар</h2>
+          <form class="popup__form" id="upd-ava-form" name="upd-ava-form"  method="GET" action="#" novalidate>
+            <input class="popup__input" type="url" id="ava-link" placeholder="Ссылка на аватар" required>
+            <span id="ava-link-error" class="popup__error"></span>
+            <button class="popup__button" type="submit">Сохранить</button>
+          </form>
+          <button class="popup__close" id="close-ava-link-button" type="button"></button>
+        </div>
+    </div>
+
 <template class="template">
   <article class="element">
     <button class="element__delete" type="button"></button>
     <img class="element__image" src="/" alt="">
     <div class="element__info">
         <h2 class="element__title"></h2>
-        <button class="element__like" type="button"></button>
+        <div>
+          <button class="element__like" type="button"></button>
+          <p class="element__like-count">0</p>
+        </div>
     </div>
   </article>
 </template>
