@@ -9,12 +9,11 @@ export class PopupWithForm extends Popup{
   }
     _getInputValues(){
       //Получаем данные инпутов
-      const inputsData = {
-        uInput: this._inputsList[0].value,
-        dInput: this._inputsList[1].value
-      };
+      const inputsData = {};
+      this._inputsList.forEach((input) => {
+        inputsData[input.name] = input.value;
+      });
       return inputsData;
-      //проходим по каждому элементу массива и помещаем значение инпута в обьект
     }
     setEventListeners(){//Вешаем слушателей
       super.setEventListeners();//наследуем слушателя и родительского класса

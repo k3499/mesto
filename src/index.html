@@ -13,7 +13,10 @@
     <main class="content">
       <section class="profile">
         <div class="profile__info">
-          <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="Жак-Ив Кусто">
+          <div class="profile__avatar-area">
+            <img class="profile__avatar" src="<%=require('./images/Avatar.png')%>" alt="Жак-Ив Кусто">
+            <div class="profile__avatar-cover"></div>
+          </div>
           <div class="profile__wrap">
             <div class="profile__title-container">
               <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -37,7 +40,7 @@
         <form class="popup__form" id="profile-form" name="popup-form" novalidate>
           <input class="popup__input popup__input_type_name" type="text" id="profileName"  name="name" placeholder="Имя" required minlength="2" maxlength="40">
           <span id="profileName-error" class="popup__error"></span>
-          <input class="popup__input popup__input_type_job" type="text" id="profileJob"  name="job" placeholder="Профессия" required minlength="2" maxlength="200">
+          <input class="popup__input popup__input_type_job" type="text" id="profileJob"  name="job" placeholder="Профессия" required minlength="2" maxlength="40">
           <span id="profileJob-error" class="popup__error"></span>
           <button class="popup__button" type="submit">Сохранить</button>
         </form>
@@ -81,7 +84,7 @@
         <div class="popup__container">
           <h2 class="popup__edit-title">Обновить аватар</h2>
           <form class="popup__form" id="upd-ava-form" name="upd-ava-form"  method="GET" action="#" novalidate>
-            <input class="popup__input" type="url" id="ava-link" placeholder="Ссылка на аватар" required>
+            <input class="popup__input" name="avalink" type="url" id="ava-link" placeholder="Ссылка на аватар" required>
             <span id="ava-link-error" class="popup__error"></span>
             <button class="popup__button" type="submit">Сохранить</button>
           </form>
