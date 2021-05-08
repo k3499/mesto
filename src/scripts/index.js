@@ -36,10 +36,19 @@ const api = new Api({
     'content-type': 'application/json'
   }});
 
+
   function createCard(item) {
     const card = new Card(userInfo.id ,item, '.template', () => {
       popupWithImage.open(card.title, card.img);
     }, (element) => {
+      popupWithConfirm.setSubmitAction(() => {
+        api.removeCard(item._id)
+        .then((res) => {
+          card.removeCard();
+          popupWithConfirm.close();
+        })
+        .catch((err) => {console.log(err);});
+      })
       popupWithConfirm.open(element);
     }, (element, isLiked) => {
       if (isLiked){
@@ -94,16 +103,16 @@ cardFormValidator.enableValidation();
 editFormValidator.enableValidation();
 
 // Всплывающее окно подтверждения
+const popupWithConfirm = new PopupWithConfirm(".confirm-popup");
 
+// const popupWithConfirm = new PopupWithConfirm(".confirm-popup", (element) => {
+//   function handleRemoveCard(element){
+//     card.removeCard(element);
+//     popupWithConfirm.close();
+//   }
+//   api.removeCard(element.id).then((res) => handleRemoveCard(element)).catch((err) => {console.log(err);});
 
-const popupWithConfirm = new PopupWithConfirm(".confirm-popup", (element) => {
-  function handleRemoveCard(element){
-    popupWithConfirm.removeCard(element);
-    popupWithConfirm.close();
-  }
-  api.removeCard(element.id).then((res) => handleRemoveCard(element)).catch((err) => {console.log(err);});
-
-});
+// });
 popupWithConfirm.setEventListeners();
 
 
