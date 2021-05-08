@@ -3,48 +3,35 @@ export class Api {
     this._url = config.url;
     this._headers = config.headers;
   }
+  _resOk(res){
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
     //загрузка карточек с сервера
-  getInitialCards(handleCard){
+  getInitialCards(){
     return fetch(`${this._url}cards`, {
        method: 'GET',
        headers: this._headers
      })
      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .then((result) => {
-        handleCard(result);
-      })
-      .catch((err) => {
-        console.log(err);
+        return this._resOk(res);
       });
   }
+
     //загрузка информации о пользователе
-  getUserInfo(handleUserInfo){
+  getUserInfo(){
     return fetch(`${this._url}users/me`, {
       method: 'GET',
       headers: this._headers
     })
     .then((res) => {
-       if (res.ok) {
-         return res.json();
-       }
-       return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
      })
-     .then((result) => {
-       handleUserInfo(result);
-     })
-     .catch((err) => {
-       console.log(err);
-     });
   }
     //отправка новой информации о пользователе
-  setUserInfo(inputData, HandleUserInfoSet, renderLoading){
-    renderLoading(true);
-    console.log(inputData);
+  setUserInfo(inputData){
     return fetch(`${this._url}users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -54,24 +41,11 @@ export class Api {
       })
     })
     .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
     })
-    .then((result) => {
-      HandleUserInfoSet(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
   }
     //добавление карточек на сервер
-  addCard(inputData, handleCardAdd, renderLoading){
-    renderLoading(true);
+  addCard(inputData){
     return fetch(`${this._url}cards`, {
       method: 'POST',
       headers: this._headers,
@@ -81,20 +55,17 @@ export class Api {
       })
     })
     .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
     })
-    .then((result) => {
-      handleCardAdd(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
+    // .then((result) => {
+    //   handleCardAdd(result);
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // })
+    // .finally(() => {
+    //   renderLoading(false);
+    // });
   }
     //добавление лайков
   like(cardId, handleLike){
@@ -103,10 +74,7 @@ export class Api {
       headers: this._headers
     })
     .then((res) => {
-       if (res.ok) {
-         return res.json();
-       }
-       return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
      })
      .then((result) => {
       handleLike(result);
@@ -122,10 +90,7 @@ export class Api {
       headers: this._headers
     })
     .then((res) => {
-       if (res.ok) {
-         return res.json();
-       }
-       return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
      })
      .then((result) => {
       handleRemoveLike(result);
@@ -135,28 +100,17 @@ export class Api {
      });
   }
     //Удаление карточки с сервера
-  removeCard(cardId, handleRemoveCard){
+  removeCard(cardId){
     return fetch(`${this._url}cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
     })
     .then((res) => {
-       if (res.ok) {
-         return res.json();
-       }
-       return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
      })
-     .then((result) => {
-      handleRemoveCard(result);
-     })
-     .catch((err) => {
-       console.log(err);
-     });
   }
     //загрузка аватара пользователя
-  avatarUpl(inputData, handleAvatarUpl, renderLoading){
-    renderLoading(true);
-    console.log(inputData);
+  avatarUpl(inputData){
     return fetch(`${this._url}users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
@@ -165,19 +119,7 @@ export class Api {
       })
     })
     .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
+      return this._resOk(res);
     })
-    .then((result) => {
-      handleAvatarUpl(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      renderLoading(false);
-    });
   }
 }

@@ -1,5 +1,5 @@
 export class Card {
-  constructor( item, selector, handleCardClick, handleDelete, handleLike ){
+  constructor(id, item, selector, handleCardClick, handleDelete, handleLike  ){
     //помещаем в элементы обьекта то что передали при создании
     //(название карточки, ссылка на изображение и селектор .template)
     this.title = item.name;
@@ -9,16 +9,11 @@ export class Card {
     this._handleDelete = handleDelete;
     this.countLike = item.likes.length;
     this.id = item._id;
+    this._owner = item.owner;
     this._handleLike = handleLike;
+    this._selfId = id;
+    this._likes = item.likes;
   }
-
-  // _deleteClickHandler(){//обработчик нажатия кнопки удаления
-  //   this._element.remove();
-  //   this._element = null;
-  // }
-  // _likeClickHandler(){//обработчик нажатия кнопки лайк
-  //   this._element.querySelector('.element__like').classList.toggle('element__like_active');
-  // }
 
   _getTemplate(){
       //берем код из теймплейта
@@ -39,13 +34,6 @@ export class Card {
     });
   }
 
-  // _handleLike() {
-  //   //находим из созданного элемента кнопку лайк и переключаем состояние
-  //   this._element.querySelector('.element__like').classList.toggle('element__like_active');
-  // }
-  // _handleDelete() {
-  //   this._element.remove();
-  // }
 
   generateCard() {
     //находим изображение и подпись
@@ -60,6 +48,25 @@ export class Card {
     image.alt = this.title;
     title.textContent = this.title;
     this._element.querySelector('.element__like-count').textContent = this.countLike;
+    if (this._owner._id !== this._selfId) {
+      this._element.querySelector('.element__delete').classList.add('element__delete_disable');
+    }
+     if (this._likes.some(elem => elem._id === this._selfId)) {
+       this.like()
+     };
     return this._element;
+  }
+  like() {
+    this._element.querySelector('.element__like').classList.toggle('element__like_active');
+  }
+
+  likesStatus(data){
+    this._element.querySelector('.element__like-count').textContent = data.likes.length;
+    this.like()
+
+  }
+  removeCard() {
+    this._element.remove();
+    this._element = null;
   }
 }

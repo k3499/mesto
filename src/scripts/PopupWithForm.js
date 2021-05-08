@@ -26,4 +26,10 @@ export class PopupWithForm extends Popup{
       super.close();
       this._form.reset();
     }
+    renderLoading(isLoading){
+      isLoading ? popupButton.innerHTML = "Сохранение..." : (
+        popupButton.innerHTML = "Сохранить",
+        popupWithEditForm.close()
+      );
+    }
 }
