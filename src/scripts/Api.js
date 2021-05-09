@@ -57,18 +57,9 @@ export class Api {
     .then((res) => {
       return this._resOk(res);
     })
-    // .then((result) => {
-    //   handleCardAdd(result);
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // })
-    // .finally(() => {
-    //   renderLoading(false);
-    // });
   }
     //добавление лайков
-  like(cardId, handleLike){
+  like(cardId){
     return fetch(`${this._url}cards/likes/${cardId}`, {
       method: 'PUT',
       headers: this._headers
@@ -76,15 +67,9 @@ export class Api {
     .then((res) => {
       return this._resOk(res);
      })
-     .then((result) => {
-      handleLike(result);
-     })
-     .catch((err) => {
-       console.log(err);
-     });
   }
     //снятие лайка
-  removeLike(cardId, handleRemoveLike){
+  removeLike(cardId){
     return fetch(`${this._url}cards/likes/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
@@ -92,12 +77,6 @@ export class Api {
     .then((res) => {
       return this._resOk(res);
      })
-     .then((result) => {
-      handleRemoveLike(result);
-     })
-     .catch((err) => {
-       console.log(err);
-     });
   }
     //Удаление карточки с сервера
   removeCard(cardId){

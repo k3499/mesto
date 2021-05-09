@@ -25,6 +25,7 @@ const editButton = document.querySelector('.profile__edit-button'),
     nameInput = popupForm.querySelector('#profileName'),
     jobInput = popupForm.querySelector('#profileJob'),
     popupButton = popupForm.querySelector('#profileJob'),
+    popupButtonAll = popupForm.querySelector('.popup__button'),
     avaForm = document.querySelector('.upd-ava-popup').querySelector("#upd-ava-form");
 
 
@@ -52,20 +53,19 @@ const api = new Api({
       popupWithConfirm.open(element);
     }, (element, isLiked) => {
       if (isLiked){
-        api.removeLike(element.id, (data) => {
-          card.likesStatus( data);
-        })
+        api.removeLike(element.id)
+        .then((res) => card.likesStatus(res))
+        .catch((err) => {console.log(err)});
       } else{
-        api.like(element.id, (data) =>{
-          card.likesStatus(data);
-        }
-        )
+        api.like(element.id)
+        .then((res) => card.likesStatus(res))
+        .catch((err) => {console.log(err)});
       }
-    }
-    );
-
+    });
     return card;
   }
+
+
 
   let cardList = {};
 
@@ -105,13 +105,6 @@ editFormValidator.enableValidation();
 // Всплывающее окно подтверждения
 const popupWithConfirm = new PopupWithConfirm(".confirm-popup");
 
-// const popupWithConfirm = new PopupWithConfirm(".confirm-popup", (element) => {
-//   function handleRemoveCard(element){
-//     card.removeCard(element);
-//     popupWithConfirm.close();
-//   }
-//   api.removeCard(element.id).then((res) => handleRemoveCard(element)).catch((err) => {console.log(err);});
-
 // });
 popupWithConfirm.setEventListeners();
 
@@ -123,21 +116,13 @@ const popupWithImage = new PopupWithImage(".lightbox", ".popup__image", ".popup_
 popupWithImage.setEventListeners();
 
 
-//ожидание прогрузки на кнопке
-function renderLoading(isLoading){
-  isLoading ? popupButton.innerHTML = "Сохранение..." : (
-    popupButton.innerHTML = "Сохранить",
-    popupWithEditForm.close()
-  );
-}
-
 //экземпляр попапа с формой редактирования профиля
 const popupWithEditForm = new PopupWithForm(".popup-profile", (inputsData) => {
-  renderLoading(true);
+  popupWithEditForm.renderLoading(true);
   function HandleUserInfoSet(data){
   userInfo.setUserInfo(data);
   }
-api.setUserInfo(inputsData).then((res) => HandleUserInfoSet(res)).catch((err) => {console.log(err)}).finally(() => {renderLoading(false);});
+api.setUserInfo(inputsData).then((res) => HandleUserInfoSet(res)).catch((err) => {console.log(err)}).finally(() => {popupWithEditForm.renderLoading(false);});
 
 });
 
@@ -147,13 +132,12 @@ popupWithEditForm.setEventListeners();
 
 //экземаляр формы с добавление карточки
 const popupWithAddForm = new PopupWithForm(".popup-card", (inputsData) => {
-  renderLoading(true);
+  popupWithAddForm.renderLoading(true);
   function handleCardAdd(item){
     const card = createCard(item);
     cardList.addItem(card.generateCard());
-    popupWithAddForm.close();
   }
-  api.addCard(inputsData).then((res) => handleCardAdd(res)).catch((err) => {console.log(err)}).finally(() => {renderLoading(false);});
+  api.addCard(inputsData).then((res) => handleCardAdd(res)).catch((err) => {console.log(err)}).finally(() => {popupWithAddForm.renderLoading(false);});
 
 });
 
@@ -162,11 +146,12 @@ popupWithAddForm.setEventListeners();
 //экземпляр редактирования аватара
 
 const popupWithUpdateForm = new PopupWithForm(".upd-ava-popup", (inputsData) => {
+  popupWithUpdateForm.renderLoading(true);
   function handleAvatarUpl(item){
     userInfo.setAvatarLink(item.avatar);
   }
-  api.avatarUpl(inputsData.avalink).then((res) => handleAvatarUpl(res)).catch((err) => {console.log(err)}).finally(() => {renderLoading(false);});
-  popupWithUpdateForm.close()
+  api.avatarUpl(inputsData.avalink).then((res) => handleAvatarUpl(res)).catch((err) => {console.log(err)}).finally(() => {popupWithUpdateForm.renderLoading(false);});
+
 });
 
 popupWithUpdateForm.setEventListeners();
